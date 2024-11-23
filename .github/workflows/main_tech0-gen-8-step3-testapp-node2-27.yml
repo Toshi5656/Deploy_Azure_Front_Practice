@@ -3,13 +3,6 @@
 
 name: Build and deploy Node.js app to Azure Web App - tech0-gen-8-step3-testapp-node2-27
 
-name: Copy artifact for deployment job
-  run: |
-    mkdir deploy
-    cp -r ./.next/standalone/. ./deploy
-    cp -r ./public ./deploy
-    cp -r ./.next/static/. ./deploy/.next/static
-
 on:
   push:
     branches:
@@ -34,8 +27,15 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Prepare deployment folder
+        run: |
+          mkdir -p deploy
+          cp -r ./.next/standalone/. ./deploy
+          cp -r ./public ./deploy
+          cp -r ./.next/static/. ./deploy/.next/static
+
       - name: Zip artifact for deployment
-        run: zip release.zip ./deploy -r
+        run: zip -r release.zip ./deploy
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
