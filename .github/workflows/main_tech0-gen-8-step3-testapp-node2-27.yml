@@ -2,6 +2,11 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy Node.js app to Azure Web App - tech0-gen-8-step3-testapp-node2-27
+  run:
+    mkdir deploy
+    cp -r ./.next/standalone/../deploy
+    cp -r ./public ./deploy
+    cp -r ./.next/static/../deploy/.next/static
 
 on:
   push:
@@ -28,7 +33,7 @@ jobs:
           npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip release.zip ./deploy -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -58,5 +63,5 @@ jobs:
         with:
           app-name: 'tech0-gen-8-step3-testapp-node2-27'
           slot-name: 'Production'
-          package: .
+          package: ./deploy
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_19919B8DEA6F432AAEF3A1C4FD0AF26E }}
