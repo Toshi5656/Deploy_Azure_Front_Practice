@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy Node.js app to Azure Web App - tech0-gen-8-step3-testapp-node2-27
-  run:
+  run:|
     mkdir deploy
     cp -r ./.next/standalone/../deploy
     cp -r ./public ./deploy
